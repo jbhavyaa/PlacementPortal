@@ -94,7 +94,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/auth/signup", async (req: Request, res: Response) => {
     try {
       const data = signupSchema.parse(req.body);
-
+      
       const existingUser = await storage.getUserByEmail(data.email);
       if (existingUser) {
         return res.status(400).json({ message: "User already exists" });
@@ -122,6 +122,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ token, user });
     } catch (error: any) {
+      console.log(error);
       res.status(400).json({ message: error.message || "Signup failed" });
     }
   });
